@@ -27,46 +27,49 @@ public class BoardGui {
     private final JLabel message = new JLabel(
             "Scrabble is ready to play!");
     private static final String COLS = "ABCDEFGH";
+    private Board game;
+    private Start start;
+    public BoardGui(Board game, Start start){
+        this.game=game;
+        this.start=start;
+        initializeGui();
 
+    }
 
     private boolean canplacehere(int x, int y) {
-        if (Main.game.getLayout().get(x).get(y) != null) {
+        if (game.getLayout().get(x).get(y) != null) {
             return false;
         }
         if (x != 0) {
-            if (Main.game.getLayout().get(x - 1).get(y) != null) {
+            if (game.getLayout().get(x - 1).get(y) != null) {
                 return true;
             }
         }
         if (y != 0) {
-            if (Main.game.getLayout().get(x).get(y - 1) != null) {
+            if (game.getLayout().get(x).get(y - 1) != null) {
                 return true;
             }
         }
         int height = 15;
         if (y != height) {
-            if (Main.game.getLayout().get(x).get(y + 1) != null) {
+            if (game.getLayout().get(x).get(y + 1) != null) {
                 return true;
             }
         }
         int width = 15;
         if (x != width) {
-            return Main.game.getLayout().get(x + 1).get(y) != null;
+            return game.getLayout().get(x + 1).get(y) != null;
         }
         return false;
     }
 
 
     public void updateboard(ArrayList<Coordinate> updates) {
-        for (ArrayList<Character> a : Main.game.getLayout()) {
+        for (ArrayList<Character> a : game.getLayout()) {
             for (Character c : a) {
 
             }
         }
-    }
-
-    BoardGui() {
-        initializeGui();
     }
 
     public final void initializeGui() {
@@ -88,18 +91,18 @@ public class BoardGui {
             lettersPlacedThisTurn.clear();
             firstLetter = true;
             for (int i = 0; i < letterPosition.size(); i++) {
-                Main.game.getLayout().get(letterPosition.get(i).getX()).set(letterPosition.get(i).getY(), null);
+                game.getLayout().get(letterPosition.get(i).getX()).set(letterPosition.get(i).getY(), null);
             }
         });
         JButton endturn = new JButton("EndTurn");
         tools.add(endturn);
         endturn.addActionListener(e -> {
             System.out.println("the word is this" + word);
-            Ai.printBoard();
+            //Ai.printBoard();
             if (word.equals("")) {
                 return;
             }
-            if (!Main.player1.containsword(word)) {
+            if (!start.player1.containsword(word)) {
                 JOptionPane.showMessageDialog(new JFrame(),
                         "That isn't a word you moron",
                         "ERROR!!!!!!!", JOptionPane.WARNING_MESSAGE);
@@ -107,7 +110,7 @@ public class BoardGui {
                     buttons.get(i).setEnabled(true);
                 }
                 for (int i = 0; i < letterPosition.size(); i++) {
-                    Main.game.getLayout().get(letterPosition.get(i).getX()).set(letterPosition.get(i).getY(), null);
+                    game.getLayout().get(letterPosition.get(i).getX()).set(letterPosition.get(i).getY(), null);
                 }
                 for (int i = 0; i < lettersPlacedThisTurn.size(); i++) {
                     lettersPlacedThisTurn.get(i).setIcon(new ImageIcon((new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB))));
@@ -123,14 +126,14 @@ public class BoardGui {
                         "That is a word!",
                         "SUCCESS!!!!!", JOptionPane.WARNING_MESSAGE);
                 firstTurn = false;
-                Main.turns++;
+                Start.turns++;
                 System.out.println("The computer takes his turn");
                 try {
-                    Main.player1.takeTurn();
+                    start.player1.takeTurn();
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
-                Main.player1.getmesomeletters();
+                start.player1.getmesomeletters(start);
 
             }
 
@@ -209,7 +212,7 @@ public class BoardGui {
                             selectedLetter = null;
                             lettersPlacedThisTurn.add(b);
                             firstLetter = false;
-                            Main.game.getLayout().get(x).set(y, letter);
+                            game.getLayout().get(x).set(y, letter);
                             word += letter;
                             Coordinate myCoordinate = new Coordinate(x, y, letter);
                             letterPosition.add(myCoordinate);
@@ -221,7 +224,7 @@ public class BoardGui {
                                 selectedLetter = null;
                                 lettersPlacedThisTurn.add(b);
                                 firstLetter = false;
-                                Main.game.getLayout().get(x).set(y, letter);
+                                game.getLayout().get(x).set(y, letter);
                                 word += letter;
                                 Coordinate myCoordinate = new Coordinate(x, y, letter);
                                 letterPosition.add(myCoordinate);
@@ -250,17 +253,17 @@ public class BoardGui {
                 }
             }
         }
-        if (Main.player1 != null) {
-            for (int i = 0; i < Main.player1.getLetters().size(); i++) {
+        if (start.player1 != null) {
+            for (int i = 0; i < start.player1.getLetters().size(); i++) {
                 final JButton button = new JButton();
                 String buttonimage = "src/Letters/";
-                buttonimage += Main.player1.getLetters().get(i);
+                buttonimage += start.player1.getLetters().get(i);
                 buttonimage += ".jpg";
                 ImageIcon icon = new ImageIcon(buttonimage);
                 Image im = icon.getImage();
                 Image imag = im.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
                 button.setIcon(new ImageIcon(imag));
-                button.setText(Character.toString(Main.player1.getLetters().get(i)));
+                button.setText(Character.toString(start.player1.getLetters().get(i)));
                 chessBoard.add(button);
                 buttons.add(button);
 
@@ -285,9 +288,9 @@ public class BoardGui {
      */
 
 
-    public void testing() {
+    public void testing(Board game, Start start) {
         Runnable r = () -> {
-            BoardGui cg = new BoardGui();
+            BoardGui cg = new BoardGui(game, start);
 
             JFrame f = new JFrame("Scrabble");
             f.add(cg.getGui());

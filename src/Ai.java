@@ -17,6 +17,10 @@ public class Ai {
     private StringBuilder greatestWord = new StringBuilder();
     private Coordinate beginningCor;
     private DIRECTION finalDirection;
+    private Board game;
+    public Ai(Board game){
+        this.game=game;
+    }
 
     public ArrayList<Character> getLetters() {
         return letters;
@@ -51,13 +55,13 @@ public class Ai {
 
     }
 
-    public static void printBoard() {
+    public  void printBoard() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (Main.game.getLayout().get(i).get(j) == null) {
+                if (game.getLayout().get(i).get(j) == null) {
                     System.out.print("_");
                 } else
-                    System.out.print(Main.game.getLayout().get(i).get(j));
+                    System.out.print(game.getLayout().get(i).get(j));
 
             }
             System.out.println();
@@ -78,7 +82,7 @@ public class Ai {
             case UP: {
                 for (int i = 0; i < word.length(); i++) {
                     JButton button = BoardGui.chessBoardSquares[drawing.getX()][drawing.getY() - 1];
-                    Main.game.getLayout().get(drawing.getX()).set(drawing.getY() - i, word.charAt(i));
+                    game.getLayout().get(drawing.getX()).set(drawing.getY() - i, word.charAt(i));
                     String buttonimage = "src/Letters/";
                     buttonimage += word.charAt(i);
                     buttonimage += ".jpg";
@@ -93,7 +97,7 @@ public class Ai {
             case DOWN: {
                 for (int i = 0; i < word.length(); i++) {
                     JButton button = BoardGui.chessBoardSquares[drawing.getX()][drawing.getY() + i];
-                    Main.game.getLayout().get(drawing.getY() + i).set(drawing.getX(), word.charAt(i));
+                    game.getLayout().get(drawing.getY() + i).set(drawing.getX(), word.charAt(i));
                     String buttonimage = "src/Letters/";
                     buttonimage += word.charAt(i);
                     buttonimage += ".jpg";
@@ -109,7 +113,7 @@ public class Ai {
             case LEFT: {
                 for (int i = 0; i < word.length(); i++) {
                     JButton button = BoardGui.chessBoardSquares[drawing.getX() - i][drawing.getY()];
-                    Main.game.getLayout().get(drawing.getY()).set(drawing.getX() - i, word.charAt(i));
+                    game.getLayout().get(drawing.getY()).set(drawing.getX() - i, word.charAt(i));
                     String buttonimage = "src/Letters/";
                     buttonimage += word.charAt(i);
                     buttonimage += ".jpg";
@@ -125,7 +129,7 @@ public class Ai {
             case RIGHT: {
                 for (int i = 0; i < word.length(); i++) {
                     JButton button = BoardGui.chessBoardSquares[drawing.getX() + i][drawing.getY()];
-                    Main.game.getLayout().get(drawing.getY()).set((drawing.getX() + i), word.charAt(i));
+                    game.getLayout().get(drawing.getY()).set((drawing.getX() + i), word.charAt(i));
                     String buttonimage = "src/Letters/";
                     buttonimage += word.charAt(i);
                     buttonimage += ".jpg";
@@ -148,15 +152,15 @@ public class Ai {
 
         try {
             for (int i = 0; i < word.length(); i++) {
-                if (Main.game.getLayout().get(currentCor.getY() + i).get(currentCor.getX()) != null && i != 0) {
+                if (game.getLayout().get(currentCor.getY() + i).get(currentCor.getX()) != null && i != 0) {
                     break;
                 }
                 if (i == word.length() - 1) {
                     if (currentCor.getY() != 0) {
                         StringBuilder check = new StringBuilder();
                         int count = 1;
-                        while (Main.game.getLayout().get(currentCor.getY() - count).get(currentCor.getX()) != null) {
-                            check.append(Main.game.getLayout().get(currentCor.getY() - count).get(currentCor.getX()));
+                        while (game.getLayout().get(currentCor.getY() - count).get(currentCor.getX()) != null) {
+                            check.append(game.getLayout().get(currentCor.getY() - count).get(currentCor.getX()));
                             count++;
                         }
                         if (!containsword(word += check.toString())) {
@@ -173,7 +177,7 @@ public class Ai {
         }
         try {
             for (int i = 0; i < word.length(); i++) {
-                if (Main.game.getLayout().get(currentCor.getY() - i).get(currentCor.getX()) != (null) && i != 0) {
+                if (game.getLayout().get(currentCor.getY() - i).get(currentCor.getX()) != (null) && i != 0) {
                     break;
                 }
 
@@ -181,8 +185,8 @@ public class Ai {
                     if (currentCor.getY() != 0) {
                         StringBuilder check = new StringBuilder();
                         int count = 1;
-                        while (Main.game.getLayout().get(currentCor.getY() + count).get(currentCor.getX()) != null) {
-                            check.append(Main.game.getLayout().get(currentCor.getY() + count).get(currentCor.getX()));
+                        while (game.getLayout().get(currentCor.getY() + count).get(currentCor.getX()) != null) {
+                            check.append(game.getLayout().get(currentCor.getY() + count).get(currentCor.getX()));
                             count++;
                         }
                         if (!containsword(word += check.toString())) {
@@ -199,7 +203,7 @@ public class Ai {
         }
         try {
             for (int i = 0; i < word.length(); i++) {
-                if (Main.game.getLayout().get(currentCor.getY()).get(currentCor.getX() - i) != (null) && i != 0) {
+                if (game.getLayout().get(currentCor.getY()).get(currentCor.getX() - i) != (null) && i != 0) {
                     break;
                 }
 
@@ -209,8 +213,8 @@ public class Ai {
                     if (currentCor.getX() != 0) {
                         StringBuilder check = new StringBuilder();
                         int count = 1;
-                        while (Main.game.getLayout().get(currentCor.getY()).get(currentCor.getX() + count) != null) {
-                            check.append(Main.game.getLayout().get(currentCor.getY()).get(currentCor.getX() + count));
+                        while (game.getLayout().get(currentCor.getY()).get(currentCor.getX() + count) != null) {
+                            check.append(game.getLayout().get(currentCor.getY()).get(currentCor.getX() + count));
                             count++;
                         }
                         if (!containsword(word += check.toString())) {
@@ -232,7 +236,7 @@ public class Ai {
                 break;
             }
 */
-                if (Main.game.getLayout().get(currentCor.getY()).get(currentCor.getX() + i) != (null) && i != 0) {
+                if (game.getLayout().get(currentCor.getY()).get(currentCor.getX() + i) != (null) && i != 0) {
                     break;
                 }
 
@@ -242,8 +246,8 @@ public class Ai {
                     if (currentCor.getX() != 0) {
                         StringBuilder check = new StringBuilder();
                         int count = 1;
-                        while (Main.game.getLayout().get(currentCor.getY()).get(currentCor.getX() - count) != null) {
-                            check.append(Main.game.getLayout().get(currentCor.getY()).get(currentCor.getX() - count));
+                        while (game.getLayout().get(currentCor.getY()).get(currentCor.getX() - count) != null) {
+                            check.append(game.getLayout().get(currentCor.getY()).get(currentCor.getX() - count));
                             count++;
                         }
                         if (!containsword(word += check.toString())) {
@@ -303,12 +307,12 @@ public class Ai {
     }
 
 
-    void getmesomeletters() {
-        while (letters.size() < 7 && Main.letters.size() > 0) {
+    void getmesomeletters(Start start) {
+        while (letters.size() < 7 && start.letters.size() > 0) {
             Random random = new Random();
-            int position = random.nextInt(Main.letters.size());//lets hope I don't go out of bounds with this
-            letters.add(Main.letters.get(position));
-            Main.letters.remove(position);
+            int position = random.nextInt(start.letters.size());//lets hope I don't go out of bounds with this
+            letters.add(start.letters.get(position));
+            start.letters.remove(position);
         }
     }
 
@@ -356,7 +360,7 @@ public class Ai {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++)//go through each letter on the board
             {
-                Character analyzing = Main.game.getLayout().get(i).get(j);
+                Character analyzing = game.getLayout().get(i).get(j);
                 if (analyzing == null) {
                     continue;
                 }

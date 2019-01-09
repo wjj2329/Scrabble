@@ -1,85 +1,14 @@
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
-
-/**
- * Created by williamjones on 8/11/16.
- */
-
-public class Main {
-    public static int turns = 0;
-    public static Board game = new Board();
-    public static Ai player1;
-    public static Ai player2;
-    static public BoardGui temp = new BoardGui();
-    static public ArrayList<Character> letters = new ArrayList<>();
-
-    public static void createLetters() {
-        for (int i = 0; i < 12; i++) {
-            letters.add('E');
-        }
-        for (int i = 0; i < 9; i++) {
-            letters.add('A');
-            letters.add('I');
-        }
-        for (int i = 0; i < 8; i++) {
-            letters.add('O');
-        }
-        for (int i = 0; i < 6; i++) {
-            letters.add('N');
-            letters.add('R');
-            letters.add('T');
-        }
-        for (int i = 0; i < 4; i++) {
-            letters.add('L');
-            letters.add('S');
-            letters.add('U');
-            letters.add('D');
-        }
-        for (int i = 0; i < 3; i++) {
-            letters.add('G');
-        }
-        for (int i = 0; i < 2; i++) {
-            letters.add('B');
-            letters.add('C');
-            letters.add('M');
-            letters.add('P');
-            letters.add('F');
-            letters.add('H');
-            letters.add('V');
-            letters.add('W');
-            letters.add('Y');
-        }
-        letters.add('K');
-        letters.add('J');
-        letters.add('X');
-        letters.add('Q');
-        letters.add('Z');
-
+public class main {
+    public static void main(String args[]) {
+        String test1 = "hi";
+        String test2 = "hi";
+        String something="hi1";
+        if(test1==something.substring(0,2))
+            System.out.println("HELLO");
+        System.out.println("it is " + (test1 == test2));
+        System.out.println("it is " + test1 + " " + test2);
+        String s1 = "testString";
+        String s2 = "testString";
+        if(s1 == s2)System.out.println("equals!");
     }
-
-    public static void main(final String[] args) throws FileNotFoundException {
-        FileReader myfile = new FileReader(args[0]);
-
-        Set<String> dictionary = new HashSet<>();
-        Scanner scan = new Scanner(myfile);
-        while (scan.hasNext()) {
-            dictionary.add(scan.next().toLowerCase());
-        }
-
-        temp.testing();
-        createLetters();
-        player1 = new Ai(dictionary);
-        player2 = new Ai(dictionary);
-        player1.getmesomeletters();
-        player2.getmesomeletters();
-    }
-
 }
-
-
